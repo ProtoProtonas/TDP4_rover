@@ -124,7 +124,7 @@ void setup() {
   pinMode(direction_left, OUTPUT);
   
   pinMode(enable_motors, OUTPUT);
-  digitalWrite(enable_motors, HIGH);
+  digitalWrite(enable_motors, HIGH); // enable motors to be driven
 
 }
 
