@@ -6,6 +6,7 @@
 
 BluetoothSerial SerialBT;
 int a = 0;
+int incomingByte = 0;
 
 
 void setup() {
@@ -23,6 +24,15 @@ void loop() {
   a = analogRead(in);
   SerialBT.println(a);
   Serial.println(a);
-  delay(500);
 
+  while (SerialBT.available() > 0) {
+    // read the incoming byte:
+    incomingByte = SerialBT.read();
+
+    // say what you got:
+    SerialBT.print("I received: ");
+    SerialBT.println(incomingByte, DEC);
+  }
+
+    delay(500);
 }
