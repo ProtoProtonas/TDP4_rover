@@ -3,4 +3,4 @@ testing/BLE_notify
 testing/bluetooth_rssi
 testing/station_bare_02
 testing/i2c_master
-testing/ i2c_slave
+testing/i2c_slave
