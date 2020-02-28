@@ -1,3 +1,6 @@
+// Libraries and stuff
+//#include "Arduino.h"
+
 /*
 
 rover as seen from above:
@@ -73,7 +76,7 @@ unsigned int up_counter = 0;
 #define wheel_hall_effect5 20
 #define wheel_hall_effect6 21
 
-// motor angle (IR ON/OFF pairs)
+// motor speed (IR ON/OFF pairs)
 #define motor_ir_led1 22
 #define motor_ir_led2 23
 #define motor_ir_led3 24
@@ -152,6 +155,7 @@ short int motor_speed5 = 0;
 bool last_pos6 = false;
 int last_change_cycle6 = 0;
 short int motor_speed6 = 0;
+int cycles = 0;
 
 
 // imu variables - BNO055
@@ -290,10 +294,6 @@ void setup() {
   pinMode(ir_star_led6, INPUT);
   pinMode(ir_star_led7, INPUT);
   pinMode(ir_star_led8, INPUT);
-
-
-
-  pinMode(13, OUTPUT);
   
 
 }
@@ -301,14 +301,149 @@ void setup() {
 void loop() {
   started = millis();
   next_time = started + period;
+  // ###############################################################
+  // ############# MOTOR SPEED DETECTION/CALCULATION ###############
+  // ###############################################################
+  
+  // MOTOR 1
+  cycles = 0;
+  if(digitalRead(motor_ir_led1) == 1) {
+    if(last_pos1 == 0) {
+      cycles = up_counter - last_change_cycle1;
+      motor_speed1 = 6283 / cycles / period; // in millirad/s
+      last_pos1 = 1;
+      last_change_cycle1 = up_counter;
+    }
+  } else {
+    if(last_pos1 == 1) {
+      cycles = up_counter - last_change_cycle1;
+      motor_speed1 = 6283 / cycles / period; // in millirad/s
+      last_pos1 = 0;
+      last_change_cycle1 = up_counter;
+    }
+  }
+  
+  // MOTOR 2
+  cycles = 0;
+  if(digitalRead(motor_ir_led2) == 1) {
+    if(last_pos2 == 0) {
+      cycles = up_counter - last_change_cycle2;
+      motor_speed2 = 6283 / cycles / period; // in millirad/s
+      last_pos2 = 1;
+      last_change_cycle2 = up_counter;
+    }
+  } else {
+    if(last_pos2 == 1) {
+      cycles = up_counter - last_change_cycle2;
+      motor_speed2 = 6283 / cycles / period; // in millirad/s
+      last_pos2 = 0;
+      last_change_cycle2 = up_counter;
+    }
+  }
+  
+  // MOTOR 3
+  cycles = 0;
+  if(digitalRead(motor_ir_led3) == 1) {
+    if(last_pos3 == 0) {
+      cycles = up_counter - last_change_cycle3;
+      motor_speed3 = 6283 / cycles / period; // in millirad/s
+      last_pos3 = 1;
+      last_change_cycle3 = up_counter;
+    }
+  } else {
+    if(last_pos1 == 1) {
+      cycles = up_counter - last_change_cycle3;
+      motor_speed3 = 6283 / cycles / period; // in millirad/s
+      last_pos3 = 0;
+      last_change_cycle3 = up_counter;
+    }
+  }
+  
+  // MOTOR 4
+  cycles = 0;
+  if(digitalRead(motor_ir_led4) == 1) {
+    if(last_pos4 == 0) {
+      cycles = up_counter - last_change_cycle4;
+      motor_speed4 = 6283 / cycles / period; // in millirad/s
+      last_pos4 = 1;
+      last_change_cycle4 = up_counter;
+    }
+  } else {
+    if(last_pos4 == 1) {
+      cycles = up_counter - last_change_cycle4;
+      motor_speed4 = 6283 / cycles / period; // in millirad/s
+      last_pos4 = 0;
+      last_change_cycle4 = up_counter;
+    }
+  }
+  
+  // MOTOR 5
+  cycles = 0;
+  if(digitalRead(motor_ir_led5) == 1) {
+    if(last_pos5 == 0) {
+      cycles = up_counter - last_change_cycle5;
+      motor_speed5 = 6283 / cycles / period; // in millirad/s
+      last_pos5 = 1;
+      last_change_cycle5 = up_counter;
+    }
+  } else {
+    if(last_pos5 == 1) {
+      cycles = up_counter - last_change_cycle5;
+      motor_speed5 = 6283 / cycles / period; // in millirad/s
+      last_pos5 = 0;
+      last_change_cycle5 = up_counter;
+    }
+  }
+  
+  // MOTOR 6
+  cycles = 0;
+  if(digitalRead(motor_ir_led6) == 1) {
+    if(last_pos6 == 0) {
+      cycles = up_counter - last_change_cycle6;
+      motor_speed6 = 6283 / cycles / period; // in millirad/s
+      last_pos6 = 1;
+      last_change_cycle6 = up_counter;
+    }
+  } else {
+    if(last_pos6 == 1) {
+      cycles = up_counter - last_change_cycle6;
+      motor_speed6 = 6283 / cycles / period; // in millirad/s
+      last_pos6 = 0;
+      last_change_cycle6 = up_counter;
+    }
+  }
 
-  delay(period/4);
+  // ###############################################################
+  // ############# WHEEL SPEED DETECTION/CALCULATION ###############
+  // ###############################################################
+  
+  // ###############################################################
+  // ############ MOTOR VOLTAGE DETECTION/CALCULATION ##############
+  // ###############################################################
+  
+  // ###############################################################
+  // ############ MOTOR CURRENT DETECTION/CALCULATION ##############
+  // ###############################################################
+  
+  // ###############################################################
+  // ############ STAR DETECTION/ HEADING CALCULATION ##############
+  // ###############################################################
+  
+  // ###############################################################
+  // ############ BLUETOOTH RSSI DETECTION/CALCULATION #############
+  // ###############################################################
+  
+  // ###############################################################
+  // ########## ULTRASONIC OBSTACLE DETECTION/CALCULATION ##########
+  // ###############################################################
+  
 
-  digitalWrite(13, LOW);
+
+
+  
   now = millis();
   while(now < next_time) {
     now = millis();
   }
-  digitalWrite(13, HIGH);
   up_counter++;
 }
