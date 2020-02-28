@@ -62,22 +62,30 @@ unsigned int up_counter = 0;
 #define motor_voltage6_pin 15
 
 // wheel angle (hall effect sensors)
-#define wheel_hall_efect1 16
-#define wheel_hall_efect2 17
-#define wheel_hall_efect3 18
-#define wheel_hall_efect4 19
-#define wheel_hall_efect5 20
-#define wheel_hall_efect6 21
+#define wheel_hall_effect1 16
+#define wheel_hall_effect2 17
+#define wheel_hall_effect3 18
+#define wheel_hall_effect4 19
+#define wheel_hall_effect5 20
+#define wheel_hall_effect6 21
+
+// motor angle (IR ON/OFF pairs)
+#define motor_ir_led1 22
+#define motor_ir_led2 23
+#define motor_ir_led3 24
+#define motor_ir_led4 25
+#define motor_ir_led5 26
+#define motor_ir_led6 27
 
 // star detection
-#define ir_star_led1 22
-#define ir_star_led2 23
-#define ir_star_led3 24
-#define ir_star_led4 25
-#define ir_star_led5 26
-#define ir_star_led6 27
-#define ir_star_led7 28
-#define ir_star_led8 29
+#define ir_star_led1 28
+#define ir_star_led2 29
+#define ir_star_led3 30
+#define ir_star_led4 31
+#define ir_star_led5 32
+#define ir_star_led6 33
+#define ir_star_led7 34
+#define ir_star_led8 35
 
 // ultrasonic sensor pins
 
@@ -250,11 +258,24 @@ void setup() {
   pinMode(enable_motors, OUTPUT);
   digitalWrite(enable_motors, HIGH); // enable motors to be driven
 
-  // ############# SETUP STAR DETECTION #############
   // ############# SETUP WHEEL SPEED DETECTION #############
+  pinMode(wheel_hall_effect1, INPUT);
+  pinMode(wheel_hall_effect2, INPUT);
+  pinMode(wheel_hall_effect3, INPUT);
+  pinMode(wheel_hall_effect4, INPUT);
+  pinMode(wheel_hall_effect5, INPUT);
+  pinMode(wheel_hall_effect6, INPUT);
+  
   // ############# SETUP MOTOR SPEED DETECTION #############
+  pinMode(motor_ir_led1, INPUT);
+  pinMode(motor_ir_led2, INPUT);
+  pinMode(motor_ir_led3, INPUT);
+  pinMode(motor_ir_led4, INPUT);
+  pinMode(motor_ir_led5, INPUT);
+  pinMode(motor_ir_led6, INPUT);
+  
   // ############# SETUP ULTRASONIC DETECTION #############
-
+  // ############# SETUP MOTOR VOLTAGE DETECTION #############
 
   // ############# SETUP STAR DETECTION #############
   pinMode(ir_star_led1, INPUT);
