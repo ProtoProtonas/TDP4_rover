@@ -1,6 +1,8 @@
 // Libraries and stuff
 //#include "Arduino.h"
 
+#define onboard_led 13
+
 /*
 
 rover as seen from above:
@@ -168,14 +170,15 @@ int imu_accel_z = 0;
 
 
 // star detection variables (infrared sensors)
-bool star1 = false;
-bool star2 = false;
-bool star3 = false;
-bool star4 = false;
-bool star5 = false;
-bool star6 = false;
-bool star7 = false;
-bool star8 = false;
+//bool star1 = false;
+//bool star2 = false;
+//bool star3 = false;
+//bool star4 = false;
+//bool star5 = false;
+//bool star6 = false;
+//bool star7 = false;
+//bool star8 = false;
+short int heading = 0;
 
 
 // ultrasonic sensor variables
@@ -250,6 +253,14 @@ void stop() {
 
 
 void setup() {
+
+  // ############# SETUP SERIAL PORTS ###############
+  Serial.begin(115200); // for debugging, communicates with PC
+  Serial1.begin(115200); // send data to ESP32
+
+  // onboard LED to see how hard Arduino is working
+  pinMode(onboard_led, OUTPUT); // the brighter the glow - the harder Atmega is working
+  
   // ############# SETUP MOTOR OUTPUTS ##############
   //apparently, Arduino PWM is done with analogWrite from PWM enabled pins automatically
 
@@ -427,7 +438,7 @@ void loop() {
   
   // ###############################################################
   // ############ STAR DETECTION/ HEADING CALCULATION ##############
-  // ###############################################################
+  // ###############################################################  
   
   // ###############################################################
   // ############ BLUETOOTH RSSI DETECTION/CALCULATION #############
@@ -442,8 +453,13 @@ void loop() {
 
   
   now = millis();
+  digitalWrite(onboard_led, HIGH); // turn off the onboard LED
   while(now < next_time) {
     now = millis();
   }
+  digitalWrite(onboard_led, LOW); // turn on the onboard LED
+
+  // TO DO: add variables to send over to ESP32
+  Serial1.print(" "); // send data to ESP32
   up_counter++;
 }
