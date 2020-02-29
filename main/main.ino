@@ -170,16 +170,16 @@ int imu_accel_z = 0;
 
 
 // star detection variables (infrared sensors)
-//bool star1 = false;
-//bool star2 = false;
-//bool star3 = false;
-//bool star4 = false;
-//bool star5 = false;
-//bool star6 = false;
-//bool star7 = false;
-//bool star8 = false;
+bool star1 = false;
+bool star2 = false;
+bool star3 = false;
+bool star4 = false;
+bool star5 = false;
+bool star6 = false;
+bool star7 = false;
+bool star8 = false;
 short int heading = 0;
-
+short int star_sum = 0;
 
 // ultrasonic sensor variables
 int distance_right = 0; // distance from an obstacle from the right ultrasonic sensor in mm
@@ -438,7 +438,20 @@ void loop() {
   
   // ###############################################################
   // ############ STAR DETECTION/ HEADING CALCULATION ##############
-  // ###############################################################  
+  // ###############################################################
+
+  star1 = digitalRead(ir_star_led1); star2 = digitalRead(ir_star_led2); star3 = digitalRead(ir_star_led3); star4 = digitalRead(ir_star_led4); 
+  star5 = digitalRead(ir_star_led5); star6 = digitalRead(ir_star_led6); star7 = digitalRead(ir_star_led7); star8 = digitalRead(ir_star_led8);
+  
+  star_sum = star1 + star2 + star3 + star4 + star5 + star6 + star7 + star8;
+  if (star_sum == 0) {
+    heading = 0;
+  } else {
+    heading = (star1 * 45 + star2 * 90 + star3 * 135 + star4 * 180 + star5 * 225 + star6 * 270 + star7 * 315) / star_sum;
+    if (heading > 180) {
+      heading -= 360;
+    }
+  }
   
   // ###############################################################
   // ############ BLUETOOTH RSSI DETECTION/CALCULATION #############
